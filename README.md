@@ -1,56 +1,124 @@
-# Welcome to your Expo app 👋
+# App Agendamento 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Projeto [Expo](https://expo.dev) + [React Native](https://reactnative.dev), criado com `create-expo-app`.
 
-## Get started
+Este README reúne o passo a passo de instalação e os conceitos mais importantes do projeto para quem está aprendendo React Native.
 
-1. Install dependencies
+## Pré-requisitos
+
+Antes de começar, instale:
+
+- **[Node.js](https://nodejs.org/)** (versão LTS mais recente)
+- **npm** (já vem junto com o Node.js)
+- **Git**
+- **[Expo Go](https://expo.dev/go)** no celular (Android/iOS) — forma mais rápida de testar o app sem precisar instalar Android Studio ou Xcode
+- Opcional, para emuladores:
+  - **[Android Studio](https://docs.expo.dev/workflow/android-studio-emulator/)** (emulador Android)
+  - **[Xcode](https://docs.expo.dev/workflow/ios-simulator/)** (simulador iOS, somente em Mac)
+
+## Instalação
+
+1. Clone o repositório:
+
+   ```bash
+   git clone <url-do-repositorio>
+   cd app_agendamento
+   ```
+
+2. Instale as dependências:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Inicie o projeto:
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+4. No terminal vai aparecer um QR Code e algumas opções de onde abrir o app:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   - Escaneando o QR Code com o app **Expo Go** no celular
+   - Pressionando `a` para abrir no emulador Android
+   - Pressionando `i` para abrir no simulador iOS (somente Mac)
+   - Pressionando `w` para abrir no navegador (web)
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Estrutura do projeto
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+src/
+├── app/            → telas e rotas do app (file-based routing)
+│   ├── _layout.tsx → layout raiz, define a navegação (abas, tema, etc.)
+│   ├── index.tsx   → rota "/" (tela inicial)
+│   └── explore.tsx → rota "/explore"
+├── components/     → componentes reutilizáveis
+├── constants/       → cores, temas e outras constantes
+├── hooks/           → hooks customizados
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+## Como funcionam as rotas (Expo Router)
 
-### Other setup steps
+Este projeto usa **file-based routing** (roteamento por arquivos), fornecido pelo [`expo-router`](https://docs.expo.dev/router/introduction/). Isso significa que **cada arquivo dentro de `src/app/` vira uma rota automaticamente**, sem precisar configurar nada manualmente:
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+| Arquivo                  | Rota        |
+| ------------------------- | ----------- |
+| `src/app/index.tsx`       | `/`         |
+| `src/app/explore.tsx`     | `/explore`  |
+| `src/app/_layout.tsx`     | layout raiz (não é uma rota, e sim o "molde" que envolve as rotas) |
 
-## Learn more
+### Onde vejo a lista de rotas?
 
-To learn more about developing your project with Expo, look at the following resources:
+Basta olhar os arquivos dentro de `src/app/`. Cada novo arquivo criado ali (ex: `agenda.tsx`) já vira automaticamente a rota `/agenda`.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Qual tela abre primeiro?
 
-## Join the community
+O app usa abas nativas (`NativeTabs`), configuradas em `src/components/app-tabs.tsx`. A ordem das abas — e qual delas abre primeiro — é definida pela ordem dos blocos `<NativeTabs.Trigger>` dentro desse arquivo:
 
-Join our community of developers creating universal apps.
+```tsx
+<NativeTabs>
+  <NativeTabs.Trigger name="index">   {/* abre primeiro */}
+    ...
+  </NativeTabs.Trigger>
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+  <NativeTabs.Trigger name="explore">
+    ...
+  </NativeTabs.Trigger>
+</NativeTabs>
+```
+
+A primeira `NativeTabs.Trigger` da lista (`index`) é a aba inicial. Para mudar qual aba abre por padrão, basta reordenar esses blocos.
+
+## Conceitos importantes de React Native / Expo
+
+- **Componentes nativos**: no React Native não usamos `<div>`, `<span>`, `<p>` como na web. Usamos componentes como `<View>` (equivalente a uma `div`) e `<Text>` (para qualquer texto — todo texto precisa estar dentro de um `<Text>`).
+- **Estilização**: não existe CSS tradicional. Usamos o `StyleSheet.create({...})` ou bibliotecas como NativeWind, com propriedades parecidas com CSS mas em `camelCase` (ex: `backgroundColor` em vez de `background-color`).
+- **Flexbox por padrão**: todo layout no React Native usa Flexbox, e o eixo principal (`flexDirection`) é `column` por padrão (diferente da web, que é `row`).
+- **Hot Reload / Fast Refresh**: ao salvar um arquivo, o app atualiza sozinho no celular/emulador sem precisar recompilar tudo.
+- **Expo Router**: sistema de navegação baseado em arquivos (explicado acima). Cada pasta/arquivo em `src/app/` define uma rota.
+- **Plataformas (`.web.tsx`, `.ios.tsx`, `.android.tsx`)**: é possível ter versões diferentes de um mesmo componente por plataforma. Por exemplo, `app-tabs.tsx` e `app-tabs.web.tsx` — o Expo escolhe automaticamente o arquivo certo dependendo de onde o app está rodando.
+- **Assets (imagens, fontes, ícones)**: ficam na pasta `assets/` e são importados com `require('./caminho/imagem.png')`.
+- **TypeScript**: o projeto usa TypeScript (arquivos `.tsx`), o que ajuda a evitar erros de tipos durante o desenvolvimento.
+
+## Comandos úteis
+
+```bash
+npx expo start        # inicia o servidor de desenvolvimento
+npx expo start --web  # abre a versão web
+npm run android        # roda diretamente no emulador/dispositivo Android
+npm run ios            # roda diretamente no simulador iOS
+npm run lint           # roda o linter (ESLint)
+npm run reset-project   # reseta o projeto para um estado inicial limpo
+```
+
+## Aprender mais
+
+- [Documentação do Expo](https://docs.expo.dev/)
+- [Documentação do Expo Router](https://docs.expo.dev/router/introduction/)
+- [Documentação do React Native](https://reactnative.dev/docs/getting-started)
+- [Tutorial oficial do Expo](https://docs.expo.dev/tutorial/introduction/)
+
+## Comunidade
+
+- [Expo no GitHub](https://github.com/expo/expo)
+- [Discord do Expo](https://chat.expo.dev)
