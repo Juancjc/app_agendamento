@@ -2,6 +2,7 @@ import { Image } from 'expo-image';
 import { SymbolView } from 'expo-symbols';
 import { Platform, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons';
 
 import { ExternalLink } from '@/components/external-link';
 import { ThemedText } from '@/components/themed-text';
@@ -76,7 +77,7 @@ export default function TabTwoScreen() {
           <Collapsible title="Android, iOS, and web support">
             <ThemedView type="backgroundElement" style={styles.collapsibleContent}>
               <ThemedText type="small">
-                You can open this project on Android, iOS, and the web. To open the web version,
+                You can sn this project on Android, iOS, and the web. To open the web version,
                 press <ThemedText type="smallBold">w</ThemedText> in the terminal running this
                 project.
               </ThemedText>
