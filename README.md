@@ -185,6 +185,12 @@ npm run reset-project   # reseta o projeto para um estado inicial limpo
 - [Documentação do React Native](https://reactnative.dev/docs/getting-started)
 - [Tutorial oficial do Expo](https://docs.expo.dev/tutorial/introduction/)
 
+## Banco de dados
+
+Diagrama das tabelas e dos relacionamentos utilizados no Supabase.
+
+![Diagrama do banco de dados do app de agendamento](docs/agendamento-app.png)
+
 ## Comunidade
 
 - [Expo no GitHub](https://github.com/expo/expo)
