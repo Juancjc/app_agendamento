@@ -18,11 +18,12 @@ export async function verificarSupabase(): Promise<SaudeSupabase> {
         controller.abort();
     }, 5000);
     try {
-        const resposta = await fetch(`${url}/rest/v1/saude`, {
+        // Endpoint de health do Supabase: responde 200 se o servidor está no ar
+        // e a chave é válida (o gateway devolve 401 para chave ausente/errada).
+        const resposta = await fetch(`${url}/auth/v1/health`, {
             method: "GET",
             headers: {
                 apikey: chave,
-                Authorization: `Bearer ${chave}`,
             },
             signal: controller.signal,
         });
