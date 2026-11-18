@@ -12,6 +12,10 @@ export async function entrar(email: string, senha: string) {
 
     return data;
 }
+export async function usuarioLogado() {
+    const { data } = await supabase.auth.getSession();
+    return data.session?.user ?? null;
+}
 export async function cadastrar(nome: string, email: string, senha: string) {
     const { data, error } = await supabase.auth.signUp({
         email: email.trim(),

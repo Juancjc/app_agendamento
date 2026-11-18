@@ -1,6 +1,13 @@
 import { supabase } from '@/lib/supabase';
-import {Icon} from "@expo/ui";
-import select = Icon.select;
+
+// Um perfil, no mesmo formato da tabela "perfis" do banco
+export type Perfil = {
+    id: string;
+    nome: string | null;
+    telefone: string | null;
+    tipo: string | null;
+    foto_url: string | null;
+};
 
 type AtualizarPefil = {
     nome?: string;
@@ -17,7 +24,7 @@ export async function buscarPerfil(id: string) {
     if (error) {
         throw new Error(error.message);
     }
-    return data;
+    return data as Perfil | null;
 }
 export async function atualizarPerfil(id: string, perfil: AtualizarPefil) {
     const { data, error } = await supabase
@@ -29,5 +36,5 @@ export async function atualizarPerfil(id: string, perfil: AtualizarPefil) {
     if (error) {
         throw new Error(error.message);
     }
-    return data;
+    return data as Perfil;
 }

@@ -8,4 +8,7 @@ export const Cores = {
   textoSecundario: '#6B7280',
   estrela: '#F5B301',
   branco: '#FFFFFF',
+  borda: '#CBD4DF',
+  erro: '#DC2626',
+  sucesso: '#15803D',
 } as const;
